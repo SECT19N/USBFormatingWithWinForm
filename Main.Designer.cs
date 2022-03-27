@@ -33,8 +33,12 @@ namespace USBFormatingWithWinForm
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.FileSystemBox = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.USBVolumeLabelBox = new System.Windows.Forms.TextBox();
+            this.ClusterSizeBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -73,15 +77,46 @@ namespace USBFormatingWithWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.ClusterSizeBox);
+            this.groupBox2.Controls.Add(this.FileSystemBox);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.USBVolumeLabelBox);
             this.groupBox2.Location = new System.Drawing.Point(12, 147);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
-            this.groupBox2.Size = new System.Drawing.Size(528, 129);
+            this.groupBox2.Size = new System.Drawing.Size(528, 264);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Format Options";
+            // 
+            // FileSystemBox
+            // 
+            this.FileSystemBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FileSystemBox.FormattingEnabled = true;
+            this.FileSystemBox.Items.AddRange(new object[] {
+            "FAT32 (Default)",
+            "NTFS",
+            "UDF",
+            "exFAT",
+            "ext2",
+            "ext3"});
+            this.FileSystemBox.Location = new System.Drawing.Point(28, 136);
+            this.FileSystemBox.Name = "FileSystemBox";
+            this.FileSystemBox.Size = new System.Drawing.Size(200, 28);
+            this.FileSystemBox.TabIndex = 2;
+            this.FileSystemBox.SelectedIndexChanged += new System.EventHandler(this.FileSystemBox_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(28, 110);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "File System";
             // 
             // label2
             // 
@@ -99,6 +134,25 @@ namespace USBFormatingWithWinForm
             this.USBVolumeLabelBox.Name = "USBVolumeLabelBox";
             this.USBVolumeLabelBox.Size = new System.Drawing.Size(472, 27);
             this.USBVolumeLabelBox.TabIndex = 0;
+            // 
+            // ClusterSizeBox
+            // 
+            this.ClusterSizeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ClusterSizeBox.FormattingEnabled = true;
+            this.ClusterSizeBox.Location = new System.Drawing.Point(300, 136);
+            this.ClusterSizeBox.Name = "ClusterSizeBox";
+            this.ClusterSizeBox.Size = new System.Drawing.Size(200, 28);
+            this.ClusterSizeBox.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(300, 110);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 20);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Cluster Size";
             // 
             // Main
             // 
@@ -127,5 +181,9 @@ namespace USBFormatingWithWinForm
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox USBVolumeLabelBox;
+        private System.Windows.Forms.ComboBox FileSystemBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox ClusterSizeBox;
     }
 }
