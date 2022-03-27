@@ -11,11 +11,12 @@ using System.Windows.Forms;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
+        string DriveLabel;
         public Main() {
             InitializeComponent();
         }
 
-        public string GetSize(long size) {
+        public static string GetSize(long size) {
             string postfix = "Bytes";
             long result = size;
             if (size >= 1073741824) { // Larger than 1 GB
@@ -37,10 +38,13 @@ namespace USBFormatingWithWinForm {
                 foreach (DriveInfo r in Removeable) {
                     if (r.DriveType == DriveType.Removable) {
                         string DriverSize = GetSize(r.TotalSize);
-
+                        DriveLabel = r.VolumeLabel;
+                        comboBox1.Items.Add($"{DriveLabel} {r.Name.Remove(2)} {DriverSize}");
                     }
                 }
             } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
+            comboBox1.SelectedIndex = 0;
+            USBVolumeLabelBox.Text = DriveLabel;
         }
     }
 }
