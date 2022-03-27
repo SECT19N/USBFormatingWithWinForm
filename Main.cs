@@ -34,22 +34,24 @@ namespace USBFormatingWithWinForm {
             return result.ToString("F1") + " " + postfix;
         }
         public void FormatDrive(string type, string filesystem, string label, string name) {
-            if (File.Exists(@"Format.bat")) {
-                File.Delete(@"Format.bat");
+            try {
+                var di = new DriveInfo(name);
+                var psi = new ProcessStartInfo();
+                psi.FileName = "Format.com";
+                psi.CreateNoWindow = false;
+                psi.WorkingDirectory = Environment.SystemDirectory;
+                psi.Arguments = "Format " + DriveName + " /FS:" + filesystem + " /V:" + label + " /Q" + " /A:" + DriveCluster + " /X";
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = false;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardInput = true;
+                var formatProcess = Process.Start(psi);
+                var swStandardInput = formatProcess.StandardInput;
+                swStandardInput.WriteLine();
+                formatProcess.WaitForExit();
+            } catch (Exception err) {
+
             }
-            NWriter = File.CreateText(@"Format.bat");
-            NWriter.WriteLine($"format H: /fs:{filesystem} /q /a:{DriveCluster} /x");
-            NWriter.WriteLine(label);
-            NWriter.Close();
-            Process Process1 = new Process();
-            Process1.StartInfo.FileName = @"Format.bat";
-            Process1.StartInfo.UseShellExecute = false;
-            Process1.StartInfo.CreateNoWindow = false;
-            Process1.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            Process1.Start();
-            if (File.Exists(@"Format.bat")) {
-                File.Delete(@"Format.bat");
-            } //just in case :)
         }
 
         private void Main_Load(object sender, EventArgs e) {
