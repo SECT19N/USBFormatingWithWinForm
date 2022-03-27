@@ -39,12 +39,15 @@ namespace USBFormatingWithWinForm {
                     if (r.DriveType == DriveType.Removable) {
                         string DriverSize = GetSize(r.TotalSize);
                         DriveLabel = r.VolumeLabel;
-                        comboBox1.Items.Add($"{DriveLabel} {r.Name.Remove(2)} {DriverSize}");
+                        DeviceBox.Items.Add($"{DriveLabel} {r.Name.Remove(2)} {DriverSize}");
                     }
                 }
             } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
-            comboBox1.SelectedIndex = 0;
+            DeviceBox.SelectedIndex = 0;
             USBVolumeLabelBox.Text = DriveLabel;
+        }
+        private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
+            USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
         }
     }
 }
