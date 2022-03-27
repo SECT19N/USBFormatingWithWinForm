@@ -20,13 +20,13 @@ namespace USBFormatingWithWinForm {
             string postfix = "Bytes";
             long result = size;
             if (size >= 1073741824) { // Larger than 1 GB
-                result = size / 1073741824;
+                result = size / 1000000000;//1073741824;
                 postfix = "GB";
             } else if (size >= 1048576) { // Larger than 1 MB
-                result = size / 1048576;
+                result = size / 1000000;
                 postfix = "MB";
             } else if (size >= 1024) { // Larger than 1 KB
-                result = size / 1024;
+                result = size / 1000;
                 postfix = "KB";
             }
             return result.ToString("F1") + " " + postfix;
