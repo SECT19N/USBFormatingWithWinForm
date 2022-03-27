@@ -33,12 +33,13 @@ namespace USBFormatingWithWinForm
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ClusterSizeBox = new System.Windows.Forms.ComboBox();
             this.FileSystemBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.USBVolumeLabelBox = new System.Windows.Forms.TextBox();
-            this.ClusterSizeBox = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.StartButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -86,10 +87,29 @@ namespace USBFormatingWithWinForm
             this.groupBox2.Location = new System.Drawing.Point(12, 147);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
-            this.groupBox2.Size = new System.Drawing.Size(528, 264);
+            this.groupBox2.Size = new System.Drawing.Size(528, 190);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Format Options";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(300, 110);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 20);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Cluster Size";
+            // 
+            // ClusterSizeBox
+            // 
+            this.ClusterSizeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ClusterSizeBox.FormattingEnabled = true;
+            this.ClusterSizeBox.Location = new System.Drawing.Point(300, 136);
+            this.ClusterSizeBox.Name = "ClusterSizeBox";
+            this.ClusterSizeBox.Size = new System.Drawing.Size(200, 28);
+            this.ClusterSizeBox.TabIndex = 4;
             // 
             // FileSystemBox
             // 
@@ -135,35 +155,28 @@ namespace USBFormatingWithWinForm
             this.USBVolumeLabelBox.Size = new System.Drawing.Size(472, 27);
             this.USBVolumeLabelBox.TabIndex = 0;
             // 
-            // ClusterSizeBox
+            // StartButton
             // 
-            this.ClusterSizeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ClusterSizeBox.FormattingEnabled = true;
-            this.ClusterSizeBox.Location = new System.Drawing.Point(300, 136);
-            this.ClusterSizeBox.Name = "ClusterSizeBox";
-            this.ClusterSizeBox.Size = new System.Drawing.Size(200, 28);
-            this.ClusterSizeBox.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(300, 110);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 20);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Cluster Size";
+            this.StartButton.Location = new System.Drawing.Point(368, 484);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(94, 29);
+            this.StartButton.TabIndex = 3;
+            this.StartButton.Text = "START";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(552, 653);
+            this.Controls.Add(this.StartButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -185,5 +198,6 @@ namespace USBFormatingWithWinForm
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox ClusterSizeBox;
+        private System.Windows.Forms.Button StartButton;
     }
 }

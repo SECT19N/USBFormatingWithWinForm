@@ -6,12 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
-        string DriveLabel;
+        string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
+        StreamWriter NWriter;
         public Main() {
             InitializeComponent();
         }
@@ -19,10 +21,10 @@ namespace USBFormatingWithWinForm {
         public static string GetSize(long size) {
             string postfix = "Bytes";
             long result = size;
-            if (size >= 1073741824) { // Larger than 1 GB
-                result = size / 1000000000;//1073741824;
+            if (size >= 1000000000) { // Larger than 1 GB
+                result = size / 1000000000;
                 postfix = "GB";
-            } else if (size >= 1048576) { // Larger than 1 MB
+            } else if (size >= 1000000) { // Larger than 1 MB
                 result = size / 1000000;
                 postfix = "MB";
             } else if (size >= 1024) { // Larger than 1 KB
@@ -30,6 +32,24 @@ namespace USBFormatingWithWinForm {
                 postfix = "KB";
             }
             return result.ToString("F1") + " " + postfix;
+        }
+        public void FormatDrive(string type, string filesystem, string label, string name) {
+            if (File.Exists(@"Format.bat")) {
+                File.Delete(@"Format.bat");
+            }
+            NWriter = File.CreateText(@"Format.bat");
+            NWriter.WriteLine($"format H: /fs:{filesystem} /q /a:{DriveCluster} /x");
+            NWriter.WriteLine(label);
+            NWriter.Close();
+            Process Process1 = new Process();
+            Process1.StartInfo.FileName = @"Format.bat";
+            Process1.StartInfo.UseShellExecute = false;
+            Process1.StartInfo.CreateNoWindow = false;
+            Process1.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            Process1.Start();
+            if (File.Exists(@"Format.bat")) {
+                File.Delete(@"Format.bat");
+            } //just in case :)
         }
 
         private void Main_Load(object sender, EventArgs e) {
@@ -39,7 +59,8 @@ namespace USBFormatingWithWinForm {
                     if (r.DriveType == DriveType.Removable) {
                         string DriverSize = GetSize(r.TotalSize);
                         DriveLabel = r.VolumeLabel;
-                        DeviceBox.Items.Add($"{DriveLabel} {r.Name.Remove(2)} {DriverSize}");
+                        DriveName = r.Name.Remove(2);
+                        DeviceBox.Items.Add($"{DriveLabel} {DriveName} {DriverSize}");
                     }
                 }
             } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
@@ -47,6 +68,9 @@ namespace USBFormatingWithWinForm {
             FileSystemBox.SelectedIndex = 0;
             FileSystemBox_SelectedIndexChanged(this, null);
             USBVolumeLabelBox.Text = DriveLabel;
+        }
+        private void Main_FormClosed(object sender, FormClosedEventArgs e) {
+            Application.Exit();
         }
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
             USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
@@ -59,7 +83,7 @@ namespace USBFormatingWithWinForm {
                 "4096 Bytes (Default)", "8192 Bytes", "16 Kilobytes",
                 "32 Kilobytes", "64 Kilobytes"
             };
-            string[] Two = { "Default" };
+            string[] TwoFourAndFive = { "Default" };
             string[] Three = {
                 "512 Bytes", "1024 Bytes", "2048 Bytes",
                 "4096 Bytes", "8192 Bytes", "16 Kilobytes",
@@ -68,7 +92,6 @@ namespace USBFormatingWithWinForm {
                 "2048 Kilobytes", "4096 Kilobytes", "8192 Kilobytes",
                 "16 Megabytes", "32 Megabytes"
             };
-            string[] FourAndFive = { "Default" };
             switch (FileSystemBox.SelectedIndex) {
                 case 0:
                     ClusterSizeBox.Items.AddRange(Zero);
@@ -79,7 +102,7 @@ namespace USBFormatingWithWinForm {
                     ClusterSizeBox.SelectedIndex = 3;
                     break;
                 case 2:
-                    ClusterSizeBox.Items.AddRange(Two);
+                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
                     ClusterSizeBox.SelectedIndex = 0;
                     break;
                 case 3:
@@ -87,14 +110,31 @@ namespace USBFormatingWithWinForm {
                     ClusterSizeBox.SelectedIndex = 6;
                     break;
                 case 4:
-                    ClusterSizeBox.Items.AddRange(FourAndFive);
+                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
                     ClusterSizeBox.SelectedIndex = 0;
                     break;
                 case 5:
-                    ClusterSizeBox.Items.AddRange(FourAndFive);
+                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
                     ClusterSizeBox.SelectedIndex = 0;
                     break;
             }
+        }
+        private void StartButton_Click(object sender, EventArgs e) {
+            DriveFileSystem = FileSystemBox.Text;
+            DriveLabel = USBVolumeLabelBox.Text;
+            DriveCluster = ClusterSizeBox.Text;
+            if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" || 
+                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
+                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" "));
+            } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
+                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
+                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "K";
+            } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
+                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
+                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
+            }
+            MessageBox.Show(DriveCluster);
+            FormatDrive("quick", DriveFileSystem, DriveLabel, DriveName);
         }
     }
 }
