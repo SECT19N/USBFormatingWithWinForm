@@ -35,22 +35,15 @@ namespace USBFormatingWithWinForm {
         }
         public void FormatDrive(string type, string filesystem, string label, string name) {
             try {
-                var di = new DriveInfo(name);
-                var psi = new ProcessStartInfo();
-                psi.FileName = "Format.com";
-                psi.CreateNoWindow = false;
-                psi.WorkingDirectory = Environment.SystemDirectory;
-                psi.Arguments = "Format " + DriveName + " /FS:" + filesystem + " /V:" + label + " /Q" + " /A:" + DriveCluster + " /X";
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = false;
-                psi.RedirectStandardOutput = true;
-                psi.RedirectStandardInput = true;
-                var formatProcess = Process.Start(psi);
-                var swStandardInput = formatProcess.StandardInput;
-                swStandardInput.WriteLine();
-                formatProcess.WaitForExit();
+                Process process = new Process { StartInfo = {
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        FileName = "cmd.exe",
+                        Arguments = $"/C format {name} /FS:{filesystem} /V:{label} /Q /A:{DriveCluster} /X" // the /q causes some bugs for now
+                    }
+                };
+                process.Start();
             } catch (Exception err) {
-
+                MessageBox.Show("" + err);
             }
         }
 
@@ -62,7 +55,7 @@ namespace USBFormatingWithWinForm {
                         string DriverSize = GetSize(r.TotalSize);
                         DriveLabel = r.VolumeLabel;
                         DriveName = r.Name.Remove(2);
-                        DeviceBox.Items.Add($"{DriveLabel} {DriveName} {DriverSize}");
+                        DeviceBox.Items.Add($"{DriveLabel} {DriveName} [{DriverSize}]");
                     }
                 }
             } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
@@ -135,7 +128,10 @@ namespace USBFormatingWithWinForm {
                 DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
                 DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
             }
-            MessageBox.Show(DriveCluster);
+            if (DriveFileSystem == "FAT32 (Default)") {
+                DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
+            }
+            MessageBox.Show(DriveCluster + DriveFileSystem + DriveLabel + DriveName);
             FormatDrive("quick", DriveFileSystem, DriveLabel, DriveName);
         }
     }
