@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -13,10 +6,11 @@ using System.Windows.Forms;
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
         string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
-        StreamWriter NWriter;
         public Main() {
             InitializeComponent();
         }
+
+        #region Functions
 
         public static string GetSize(long size) {
             string postfix = "Bytes";
@@ -33,7 +27,7 @@ namespace USBFormatingWithWinForm {
             }
             return result.ToString("F1") + " " + postfix;
         }
-        public void FormatDrive(string type, string filesystem, string label, string name) {
+        public void FormatDrive(string filesystem, string label, string name) {
             try {
                 Process process = new Process { StartInfo = {
                         WindowStyle = ProcessWindowStyle.Hidden,
@@ -47,6 +41,10 @@ namespace USBFormatingWithWinForm {
             }
         }
 
+        #endregion
+
+        #region Events
+
         private void Main_Load(object sender, EventArgs e) {
             try {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
@@ -58,11 +56,12 @@ namespace USBFormatingWithWinForm {
                         DeviceBox.Items.Add($"{DriveLabel} {DriveName} [{DriverSize}]");
                     }
                 }
-            } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
+            }
+            catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
             DeviceBox.SelectedIndex = 0;
             FileSystemBox.SelectedIndex = 0;
-            FileSystemBox_SelectedIndexChanged(this, null);
             USBVolumeLabelBox.Text = DriveLabel;
+            FileSystemBox_SelectedIndexChanged(this, null);
         }
         private void Main_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
@@ -118,21 +117,24 @@ namespace USBFormatingWithWinForm {
             DriveFileSystem = FileSystemBox.Text;
             DriveLabel = USBVolumeLabelBox.Text;
             DriveCluster = ClusterSizeBox.Text;
-            if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" || 
+            if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
                 DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
                 DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" "));
             } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
-                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
+              DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
                 DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "K";
             } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
-                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
+              DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
                 DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
             }
             if (DriveFileSystem == "FAT32 (Default)") {
                 DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
             }
             MessageBox.Show(DriveCluster + DriveFileSystem + DriveLabel + DriveName);
-            FormatDrive("quick", DriveFileSystem, DriveLabel, DriveName);
+            FormatDrive(DriveFileSystem, DriveLabel, DriveName);
         }
+
+        #endregion
+
     }
 }
