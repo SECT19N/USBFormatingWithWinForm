@@ -51,6 +51,7 @@ namespace USBFormatingWithWinForm {
         #region Events
 
         private void Main_Load(object sender, EventArgs e) {
+            DriveStatusLabel.Text = string.Empty;
             try {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
                 foreach (DriveInfo r in Removeable) {
@@ -73,8 +74,16 @@ namespace USBFormatingWithWinForm {
         private void Main_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
         }
+
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
             USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
+            DriveName = DeviceBox.Text.Substring(DeviceBox.Text.IndexOf(" "), DeviceBox.Text.IndexOf(":")).Trim();
+            DriveInfo currentDrive = new DriveInfo(DriveName);
+            if (currentDrive.IsReady) {
+                DriveStatusLabel.Text = "Ready";
+            } else {
+                DriveStatusLabel.Text = "Not Ready";
+            }
         }
         private void FileSystemBox_SelectedIndexChanged(object sender, EventArgs e) {
             ClusterSizeBox.Items.Clear();
