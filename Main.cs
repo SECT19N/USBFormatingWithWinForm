@@ -30,12 +30,17 @@ namespace USBFormatingWithWinForm {
         public void FormatDrive(string filesystem, string label, string name) {
             try {
                 Process process = new Process { StartInfo = {
-                        WindowStyle = ProcessWindowStyle.Hidden,
                         FileName = "cmd.exe",
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        WindowStyle = ProcessWindowStyle.Hidden,
                         Arguments = $"/C format {name} /FS:{filesystem} /V:{label} /Q /A:{DriveCluster} /X" // the /q causes some bugs for now
                     }
                 };
                 process.Start();
+                StreamWriter standardInput = process.StandardInput;
+                standardInput.WriteLine();
             } catch (Exception err) {
                 MessageBox.Show("" + err);
             }
@@ -58,7 +63,9 @@ namespace USBFormatingWithWinForm {
                 }
             }
             catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
-            DeviceBox.SelectedIndex = 0;
+            if (DeviceBox.Items.Count > 0) {
+                DeviceBox.SelectedIndex = 0;
+            }
             FileSystemBox.SelectedIndex = 0;
             USBVolumeLabelBox.Text = DriveLabel;
             FileSystemBox_SelectedIndexChanged(this, null);
@@ -114,24 +121,27 @@ namespace USBFormatingWithWinForm {
             }
         }
         private void StartButton_Click(object sender, EventArgs e) {
-            DriveFileSystem = FileSystemBox.Text;
-            DriveLabel = USBVolumeLabelBox.Text;
-            DriveCluster = ClusterSizeBox.Text;
-            if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
-                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
-                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" "));
-            } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
-              DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
-                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "K";
-            } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
-              DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
-                DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
+            if (DeviceBox.Text == string.Empty) {
+                MessageBox.Show("No items selected!", "Warning");
+            } else {
+                DriveFileSystem = FileSystemBox.Text;
+                DriveLabel = USBVolumeLabelBox.Text;
+                DriveCluster = ClusterSizeBox.Text;
+                if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
+                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
+                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" "));
+                } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
+                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
+                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "K";
+                } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
+                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
+                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
+                }
+                if (DriveFileSystem == "FAT32 (Default)") {
+                    DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
+                }
+                FormatDrive(DriveFileSystem, DriveLabel, DriveName);
             }
-            if (DriveFileSystem == "FAT32 (Default)") {
-                DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
-            }
-            MessageBox.Show(DriveCluster + DriveFileSystem + DriveLabel + DriveName);
-            FormatDrive(DriveFileSystem, DriveLabel, DriveName);
         }
 
         #endregion
