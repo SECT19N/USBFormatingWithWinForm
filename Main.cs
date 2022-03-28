@@ -51,7 +51,6 @@ namespace USBFormatingWithWinForm {
         #region Events
 
         private void Main_Load(object sender, EventArgs e) {
-            DriveStatusLabel.Text = string.Empty;
             try {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
                 foreach (DriveInfo r in Removeable) {
@@ -62,8 +61,8 @@ namespace USBFormatingWithWinForm {
                         DeviceBox.Items.Add($"{DriveLabel} {DriveName} [{DriverSize}]");
                     }
                 }
-            }
-            catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
+            } catch { MessageBox.Show("Error Fetching Removeable Drives", "Error"); }
+            DriveStatusLabel.Text = string.Empty;
             if (DeviceBox.Items.Count > 0) {
                 DeviceBox.SelectedIndex = 0;
             }
@@ -74,7 +73,6 @@ namespace USBFormatingWithWinForm {
         private void Main_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
         }
-
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
             USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
             DriveName = DeviceBox.Text.Substring(DeviceBox.Text.IndexOf(" "), DeviceBox.Text.IndexOf(":")).Trim();

@@ -1,8 +1,6 @@
 ﻿
-namespace USBFormatingWithWinForm
-{
-    partial class Main
-    {
+namespace USBFormatingWithWinForm {
+    partial class Main {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -12,10 +10,8 @@ namespace USBFormatingWithWinForm
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -98,11 +94,11 @@ namespace USBFormatingWithWinForm
             // 
             // DriveStatusLabel
             // 
-            this.DriveStatusLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.DriveStatusLabel.Location = new System.Drawing.Point(29, 199);
+            this.DriveStatusLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.DriveStatusLabel.Location = new System.Drawing.Point(28, 169);
             this.DriveStatusLabel.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.DriveStatusLabel.Name = "DriveStatusLabel";
-            this.DriveStatusLabel.Size = new System.Drawing.Size(470, 20);
+            this.DriveStatusLabel.Size = new System.Drawing.Size(472, 20);
             this.DriveStatusLabel.TabIndex = 6;
             this.DriveStatusLabel.Text = ".";
             this.DriveStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
