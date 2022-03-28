@@ -136,10 +136,7 @@ namespace USBFormatingWithWinForm {
             this.FileSystemBox.Items.AddRange(new object[] {
             "FAT32 (Default)",
             "NTFS",
-            "UDF",
-            "exFAT",
-            "ext2",
-            "ext3"});
+            "exFAT"});
             this.FileSystemBox.Location = new System.Drawing.Point(28, 136);
             this.FileSystemBox.Name = "FileSystemBox";
             this.FileSystemBox.Size = new System.Drawing.Size(200, 28);

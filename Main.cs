@@ -91,8 +91,7 @@ namespace USBFormatingWithWinForm {
                 "4096 Bytes (Default)", "8192 Bytes", "16 Kilobytes",
                 "32 Kilobytes", "64 Kilobytes"
             };
-            string[] TwoFourAndFive = { "Default" };
-            string[] Three = {
+            string[] Two = {
                 "512 Bytes", "1024 Bytes", "2048 Bytes",
                 "4096 Bytes", "8192 Bytes", "16 Kilobytes",
                 "32 Kilobytes (Default)", "64 Kilobytes", "128 Kilobytes",
@@ -110,20 +109,8 @@ namespace USBFormatingWithWinForm {
                     ClusterSizeBox.SelectedIndex = 3;
                     break;
                 case 2:
-                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
-                    ClusterSizeBox.SelectedIndex = 0;
-                    break;
-                case 3:
-                    ClusterSizeBox.Items.AddRange(Three);
+                    ClusterSizeBox.Items.AddRange(Two);
                     ClusterSizeBox.SelectedIndex = 6;
-                    break;
-                case 4:
-                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
-                    ClusterSizeBox.SelectedIndex = 0;
-                    break;
-                case 5:
-                    ClusterSizeBox.Items.AddRange(TwoFourAndFive);
-                    ClusterSizeBox.SelectedIndex = 0;
                     break;
             }
         }
