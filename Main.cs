@@ -75,7 +75,7 @@ namespace USBFormatingWithWinForm {
         }
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
             USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
-            DriveName = DeviceBox.Text.Substring(DeviceBox.Text.IndexOf(" "), DeviceBox.Text.IndexOf(":")).Trim();
+            DriveName = DeviceBox.Text.Substring(DeviceBox.Text.IndexOf(" "), 3).Trim();
             DriveInfo currentDrive = new DriveInfo(DriveName);
             if (currentDrive.IsReady) {
                 DriveStatusLabel.Text = "Ready";
