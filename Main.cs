@@ -29,19 +29,31 @@ namespace USBFormatingWithWinForm {
         }
         public void FormatDrive(string filesystem, string label, string name) {
             try {
+                StartButton.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                DriveStatusLabel.Text = "Creating Process.";
                 Process process = new Process { StartInfo = {
                         FileName = "cmd.exe",
                         CreateNoWindow = true,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        Arguments = $"/C format {name} /FS:{filesystem} /V:{label} /Q /A:{DriveCluster} /X" // the /q causes some bugs for now
+                        Arguments = $"/C format {name} /FS:{filesystem} /V:{label} /Q /A:{DriveCluster} /X"
                     }
                 };
+                DriveStatusLabel.Text = "Starting Process...";
                 process.Start();
+                DriveStatusLabel.Text = "Starting Format...";
                 StreamWriter standardInput = process.StandardInput;
                 standardInput.WriteLine();
-            } catch (Exception err) {
+                DriveStatusLabel.Text = "Formatting...";
+                process.WaitForExit();
+                DriveStatusLabel.Text = "Formatting finished";
+                DeviceBox_SelectedIndexChanged(this, null);
+                StartButton.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
+            catch (Exception err) {
                 MessageBox.Show("" + err);
             }
         }

@@ -30,7 +30,6 @@ namespace USBFormatingWithWinForm {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.DriveStatusLabel = new System.Windows.Forms.Label();
-            this.FormatProgress = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
             this.ClusterSizeBox = new System.Windows.Forms.ComboBox();
             this.FileSystemBox = new System.Windows.Forms.ComboBox();
@@ -77,7 +76,6 @@ namespace USBFormatingWithWinForm {
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.DriveStatusLabel);
-            this.groupBox2.Controls.Add(this.FormatProgress);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.ClusterSizeBox);
             this.groupBox2.Controls.Add(this.FileSystemBox);
@@ -87,7 +85,7 @@ namespace USBFormatingWithWinForm {
             this.groupBox2.Location = new System.Drawing.Point(12, 147);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
-            this.groupBox2.Size = new System.Drawing.Size(528, 251);
+            this.groupBox2.Size = new System.Drawing.Size(528, 222);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Format Options";
@@ -95,20 +93,13 @@ namespace USBFormatingWithWinForm {
             // DriveStatusLabel
             // 
             this.DriveStatusLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.DriveStatusLabel.Location = new System.Drawing.Point(28, 169);
-            this.DriveStatusLabel.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.DriveStatusLabel.Location = new System.Drawing.Point(28, 182);
+            this.DriveStatusLabel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.DriveStatusLabel.Name = "DriveStatusLabel";
             this.DriveStatusLabel.Size = new System.Drawing.Size(472, 20);
             this.DriveStatusLabel.TabIndex = 6;
             this.DriveStatusLabel.Text = ".";
             this.DriveStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // FormatProgress
-            // 
-            this.FormatProgress.Location = new System.Drawing.Point(28, 194);
-            this.FormatProgress.Name = "FormatProgress";
-            this.FormatProgress.Size = new System.Drawing.Size(472, 29);
-            this.FormatProgress.TabIndex = 4;
             // 
             // label4
             // 
@@ -172,7 +163,7 @@ namespace USBFormatingWithWinForm {
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(368, 484);
+            this.StartButton.Location = new System.Drawing.Point(418, 375);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(94, 29);
             this.StartButton.TabIndex = 3;
@@ -183,7 +174,7 @@ namespace USBFormatingWithWinForm {
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(552, 653);
+            this.ClientSize = new System.Drawing.Size(552, 412);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -214,7 +205,6 @@ namespace USBFormatingWithWinForm {
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox ClusterSizeBox;
         private System.Windows.Forms.Button StartButton;
-        private System.Windows.Forms.ProgressBar FormatProgress;
         private System.Windows.Forms.Label DriveStatusLabel;
     }
 }
