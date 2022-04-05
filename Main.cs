@@ -56,6 +56,7 @@ namespace USBFormatingWithWinForm {
             catch (Exception err) {
                 MessageBox.Show("" + err);
             }
+            Main_Load(this, null);
         }
 
         #endregion
