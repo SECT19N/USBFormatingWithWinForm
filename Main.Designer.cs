@@ -37,6 +37,7 @@ namespace USBFormatingWithWinForm {
             this.label2 = new System.Windows.Forms.Label();
             this.USBVolumeLabelBox = new System.Windows.Forms.TextBox();
             this.StartButton = new System.Windows.Forms.Button();
+            this.BIOSTypeLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -47,12 +48,13 @@ namespace USBFormatingWithWinForm {
             this.DeviceBox.FormattingEnabled = true;
             this.DeviceBox.Location = new System.Drawing.Point(28, 73);
             this.DeviceBox.Name = "DeviceBox";
-            this.DeviceBox.Size = new System.Drawing.Size(472, 28);
+            this.DeviceBox.Size = new System.Drawing.Size(472, 23);
             this.DeviceBox.TabIndex = 0;
             this.DeviceBox.SelectedIndexChanged += new System.EventHandler(this.DeviceBox_SelectedIndexChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BIOSTypeLabel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.DeviceBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -69,7 +71,7 @@ namespace USBFormatingWithWinForm {
             this.label1.Location = new System.Drawing.Point(28, 50);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 20);
+            this.label1.Size = new System.Drawing.Size(42, 15);
             this.label1.TabIndex = 1;
             this.label1.Text = "Device";
             // 
@@ -107,7 +109,7 @@ namespace USBFormatingWithWinForm {
             this.label4.Location = new System.Drawing.Point(300, 110);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 20);
+            this.label4.Size = new System.Drawing.Size(67, 15);
             this.label4.TabIndex = 5;
             this.label4.Text = "Cluster Size";
             // 
@@ -117,7 +119,7 @@ namespace USBFormatingWithWinForm {
             this.ClusterSizeBox.FormattingEnabled = true;
             this.ClusterSizeBox.Location = new System.Drawing.Point(300, 136);
             this.ClusterSizeBox.Name = "ClusterSizeBox";
-            this.ClusterSizeBox.Size = new System.Drawing.Size(200, 28);
+            this.ClusterSizeBox.Size = new System.Drawing.Size(200, 23);
             this.ClusterSizeBox.TabIndex = 4;
             // 
             // FileSystemBox
@@ -130,7 +132,7 @@ namespace USBFormatingWithWinForm {
             "exFAT"});
             this.FileSystemBox.Location = new System.Drawing.Point(28, 136);
             this.FileSystemBox.Name = "FileSystemBox";
-            this.FileSystemBox.Size = new System.Drawing.Size(200, 28);
+            this.FileSystemBox.Size = new System.Drawing.Size(200, 23);
             this.FileSystemBox.TabIndex = 2;
             this.FileSystemBox.SelectedIndexChanged += new System.EventHandler(this.FileSystemBox_SelectedIndexChanged);
             // 
@@ -140,7 +142,7 @@ namespace USBFormatingWithWinForm {
             this.label3.Location = new System.Drawing.Point(28, 110);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 20);
+            this.label3.Size = new System.Drawing.Size(66, 15);
             this.label3.TabIndex = 3;
             this.label3.Text = "File System";
             // 
@@ -150,7 +152,7 @@ namespace USBFormatingWithWinForm {
             this.label2.Location = new System.Drawing.Point(28, 44);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 20);
+            this.label2.Size = new System.Drawing.Size(78, 15);
             this.label2.TabIndex = 2;
             this.label2.Text = "Volume Label";
             // 
@@ -158,7 +160,7 @@ namespace USBFormatingWithWinForm {
             // 
             this.USBVolumeLabelBox.Location = new System.Drawing.Point(28, 70);
             this.USBVolumeLabelBox.Name = "USBVolumeLabelBox";
-            this.USBVolumeLabelBox.Size = new System.Drawing.Size(472, 27);
+            this.USBVolumeLabelBox.Size = new System.Drawing.Size(472, 23);
             this.USBVolumeLabelBox.TabIndex = 0;
             // 
             // StartButton
@@ -170,6 +172,16 @@ namespace USBFormatingWithWinForm {
             this.StartButton.Text = "START";
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // BIOSTypeLabel
+            // 
+            this.BIOSTypeLabel.AutoSize = true;
+            this.BIOSTypeLabel.Location = new System.Drawing.Point(28, 25);
+            this.BIOSTypeLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.BIOSTypeLabel.Name = "BIOSTypeLabel";
+            this.BIOSTypeLabel.Size = new System.Drawing.Size(10, 15);
+            this.BIOSTypeLabel.TabIndex = 2;
+            this.BIOSTypeLabel.Text = ".";
             // 
             // Main
             // 
@@ -206,5 +218,6 @@ namespace USBFormatingWithWinForm {
         private System.Windows.Forms.ComboBox ClusterSizeBox;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label DriveStatusLabel;
+        private System.Windows.Forms.Label BIOSTypeLabel;
     }
 }
