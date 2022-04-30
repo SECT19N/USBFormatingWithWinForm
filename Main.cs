@@ -1,17 +1,42 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Forms;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
+        public const int ERROR_INVALID_FUNCTION = 1;
         string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
         public Main() {
             InitializeComponent();
+            if (IsWIndowsUEFI() == false) {
+                BIOSTypeLabel.Text = "The System is Legacy BIOS";
+            } else {
+                BIOSTypeLabel.Text = "The System is UEFI";
+            }
+            USBNotification.RegisterUsbDeviceNotification(this.Handle);
         }
 
         #region Functions
 
+        public static bool IsWIndowsUEFI() {
+            GetBIOS.GetFirmwareType("", "{00000000-0000-0000-0000-000000000000}", IntPtr.Zero, 0);
+            if (Marshal.GetLastWin32Error() == ERROR_INVALID_FUNCTION) {
+                return false; //if in Legacy
+            } else {
+                return true; //if in UEFI
+            }
+        }
+        protected override void WndProc(ref Message m) {
+            base.WndProc(ref m);
+            if (m.Msg == USBNotification.WmDevicechange) {
+                switch ((int)m.WParam) {
+                    case USBNotification.DbtDeviceremovecomplete: Main_Load(this, null); break; //updates when device are removed
+                    case USBNotification.DbtDevicearrival: Main_Load(this, null); break; //updates when device are added
+                }
+            }
+        }
         public static string GetSize(long size) {
             string postfix = "Bytes";
             long result = size;
@@ -64,6 +89,7 @@ namespace USBFormatingWithWinForm {
         #region Events
 
         private void Main_Load(object sender, EventArgs e) {
+            DeviceBox.Items.Clear();
             try {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
                 foreach (DriveInfo r in Removeable) {
@@ -82,11 +108,16 @@ namespace USBFormatingWithWinForm {
             FileSystemBox.SelectedIndex = 0;
             USBVolumeLabelBox.Text = DriveLabel;
             FileSystemBox_SelectedIndexChanged(this, null);
+            DeviceBox_SelectedIndexChanged(this, null);
         }
         private void Main_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
         }
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (DeviceBox.Items.Count <= 0) {
+                DriveStatusLabel.Text = "No Devices Found";
+                return;
+            }
             USBVolumeLabelBox.Text = DeviceBox.Text.Substring(0, DeviceBox.Text.IndexOf(" "));
             DriveName = DeviceBox.Text.Substring(DeviceBox.Text.IndexOf(" "), 3).Trim();
             DriveInfo currentDrive = new DriveInfo(DriveName);
