@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Forms;
 
@@ -10,24 +9,11 @@ namespace USBFormatingWithWinForm {
         string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
         public Main() {
             InitializeComponent();
-            if (IsWIndowsUEFI() == false) {
-                BIOSTypeLabel.Text = "The System is Legacy BIOS";
-            } else {
-                BIOSTypeLabel.Text = "The System is UEFI";
-            }
             USBNotification.RegisterUsbDeviceNotification(this.Handle);
         }
 
         #region Functions
 
-        public static bool IsWIndowsUEFI() {
-            GetBIOS.GetFirmwareType("", "{00000000-0000-0000-0000-000000000000}", IntPtr.Zero, 0);
-            if (Marshal.GetLastWin32Error() == ERROR_INVALID_FUNCTION) {
-                return false; //if in Legacy
-            } else {
-                return true; //if in UEFI
-            }
-        }
         protected override void WndProc(ref Message m) {
             base.WndProc(ref m);
             if (m.Msg == USBNotification.WmDevicechange) {

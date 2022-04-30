@@ -37,7 +37,6 @@ namespace USBFormatingWithWinForm {
             this.label2 = new System.Windows.Forms.Label();
             this.USBVolumeLabelBox = new System.Windows.Forms.TextBox();
             this.StartButton = new System.Windows.Forms.Button();
-            this.BIOSTypeLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +53,6 @@ namespace USBFormatingWithWinForm {
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.BIOSTypeLabel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.DeviceBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -173,16 +171,6 @@ namespace USBFormatingWithWinForm {
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
-            // BIOSTypeLabel
-            // 
-            this.BIOSTypeLabel.AutoSize = true;
-            this.BIOSTypeLabel.Location = new System.Drawing.Point(28, 25);
-            this.BIOSTypeLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.BIOSTypeLabel.Name = "BIOSTypeLabel";
-            this.BIOSTypeLabel.Size = new System.Drawing.Size(10, 15);
-            this.BIOSTypeLabel.TabIndex = 2;
-            this.BIOSTypeLabel.Text = ".";
-            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -218,6 +206,5 @@ namespace USBFormatingWithWinForm {
         private System.Windows.Forms.ComboBox ClusterSizeBox;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label DriveStatusLabel;
-        private System.Windows.Forms.Label BIOSTypeLabel;
     }
 }
