@@ -5,7 +5,6 @@ using System.Windows.Forms;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
-        public const int ERROR_INVALID_FUNCTION = 1;
         string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
         public Main() {
             InitializeComponent();
