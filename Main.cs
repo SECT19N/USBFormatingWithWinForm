@@ -31,7 +31,7 @@ namespace USBFormatingWithWinForm {
             } else if (size >= 1000000) { // Larger than 1 MB
                 result = size / 1000000;
                 postfix = "MB";
-            } else if (size >= 1024) { // Larger than 1 KB
+            } else if (size >= 1000) { // Larger than 1 KB
                 result = size / 1000;
                 postfix = "KB";
             }
