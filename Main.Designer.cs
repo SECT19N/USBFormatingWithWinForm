@@ -27,6 +27,9 @@ namespace USBFormatingWithWinForm {
         {
             this.DeviceBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ISOBrowseButton = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.FormatOptionBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.DriveStatusLabel = new System.Windows.Forms.Label();
@@ -45,7 +48,7 @@ namespace USBFormatingWithWinForm {
             // 
             this.DeviceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DeviceBox.FormattingEnabled = true;
-            this.DeviceBox.Location = new System.Drawing.Point(28, 73);
+            this.DeviceBox.Location = new System.Drawing.Point(28, 69);
             this.DeviceBox.Name = "DeviceBox";
             this.DeviceBox.Size = new System.Drawing.Size(472, 23);
             this.DeviceBox.TabIndex = 0;
@@ -53,20 +56,55 @@ namespace USBFormatingWithWinForm {
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ISOBrowseButton);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.FormatOptionBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.DeviceBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(25);
-            this.groupBox1.Size = new System.Drawing.Size(528, 129);
+            this.groupBox1.Size = new System.Drawing.Size(528, 192);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Device Properties";
             // 
+            // ISOBrowseButton
+            // 
+            this.ISOBrowseButton.Location = new System.Drawing.Point(425, 126);
+            this.ISOBrowseButton.Name = "ISOBrowseButton";
+            this.ISOBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.ISOBrowseButton.TabIndex = 4;
+            this.ISOBrowseButton.Text = "Browse";
+            this.ISOBrowseButton.UseVisualStyleBackColor = true;
+            this.ISOBrowseButton.Click += new System.EventHandler(this.ISOBrowseButton_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(28, 104);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 15);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Option";
+            // 
+            // FormatOptionBox
+            // 
+            this.FormatOptionBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FormatOptionBox.FormattingEnabled = true;
+            this.FormatOptionBox.Items.AddRange(new object[] {
+            "Format",
+            "ISO or Disc Image"});
+            this.FormatOptionBox.Location = new System.Drawing.Point(28, 127);
+            this.FormatOptionBox.Name = "FormatOptionBox";
+            this.FormatOptionBox.Size = new System.Drawing.Size(353, 23);
+            this.FormatOptionBox.TabIndex = 2;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 50);
+            this.label1.Location = new System.Drawing.Point(28, 46);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 15);
@@ -82,7 +120,7 @@ namespace USBFormatingWithWinForm {
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.USBVolumeLabelBox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 147);
+            this.groupBox2.Location = new System.Drawing.Point(12, 210);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
             this.groupBox2.Size = new System.Drawing.Size(528, 222);
@@ -163,7 +201,7 @@ namespace USBFormatingWithWinForm {
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(418, 375);
+            this.StartButton.Location = new System.Drawing.Point(418, 600);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(94, 29);
             this.StartButton.TabIndex = 3;
@@ -174,7 +212,7 @@ namespace USBFormatingWithWinForm {
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(552, 412);
+            this.ClientSize = new System.Drawing.Size(552, 641);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -206,5 +244,8 @@ namespace USBFormatingWithWinForm {
         private System.Windows.Forms.ComboBox ClusterSizeBox;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label DriveStatusLabel;
+        private System.Windows.Forms.Button ISOBrowseButton;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox FormatOptionBox;
     }
 }

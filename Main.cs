@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
-        string DriveLabel, DriveFileSystem, DriveCluster, DriveName;
+        string DriveLabel, DriveFileSystem, DriveCluster, DriveName, ISOLocation;
         public Main() {
             InitializeComponent();
             USBNotification.RegisterUsbDeviceNotification(this.Handle);
@@ -73,6 +74,8 @@ namespace USBFormatingWithWinForm {
 
         #region Events
 
+        #region Form Events
+
         private void Main_Load(object sender, EventArgs e) {
             DeviceBox.Items.Clear();
             try {
@@ -91,13 +94,17 @@ namespace USBFormatingWithWinForm {
                 DeviceBox.SelectedIndex = 0;
             }
             FileSystemBox.SelectedIndex = 0;
+            FormatOptionBox.SelectedIndex = 0;
             USBVolumeLabelBox.Text = DriveLabel;
-            FileSystemBox_SelectedIndexChanged(this, null);
             DeviceBox_SelectedIndexChanged(this, null);
+            FileSystemBox_SelectedIndexChanged(this, null);
         }
         private void Main_FormClosed(object sender, FormClosedEventArgs e) {
             Application.Exit();
         }
+
+        #endregion
+
         private void DeviceBox_SelectedIndexChanged(object sender, EventArgs e) {
             if (DeviceBox.Items.Count <= 0) {
                 DriveStatusLabel.Text = "No Devices Found";
@@ -114,7 +121,7 @@ namespace USBFormatingWithWinForm {
         }
         private void FileSystemBox_SelectedIndexChanged(object sender, EventArgs e) {
             ClusterSizeBox.Items.Clear();
-            string[] Zero = { "4096 Bytes", "8192 Bytes (Default)", "16 Kilobytes", "32 Kilobytes", "64 Kilobytes" };
+            string[] Zero = { "4096 Bytes", "8192 Bytes (Default)", "16 Kilobytes", "32 Kilobytes" }; //removed 64K because it would freeze the process
             string[] One = {
                 "512 Bytes", "1024 Bytes", "2048 Bytes",
                 "4096 Bytes (Default)", "8192 Bytes", "16 Kilobytes",
@@ -143,29 +150,54 @@ namespace USBFormatingWithWinForm {
                     break;
             }
         }
+
+        #region Button Click Events
+
         private void StartButton_Click(object sender, EventArgs e) {
-            if (DeviceBox.Text == string.Empty) {
-                MessageBox.Show("No items selected!", "Warning");
+            if (FormatOptionBox.SelectedIndex == 0) {
+                if (DeviceBox.Text == string.Empty) {
+                    MessageBox.Show("No items selected!", "Warning");
+                } else {
+                    DriveFileSystem = FileSystemBox.Text;
+                    DriveLabel = USBVolumeLabelBox.Text;
+                    DriveCluster = ClusterSizeBox.Text;
+                    if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
+                        DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
+                        DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "");
+                    } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
+                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
+                        DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "") + "K";
+                    } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
+                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
+                        DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "") + "M";
+                    }
+                    if (DriveFileSystem == "FAT32 (Default)") {
+                        DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
+                    }
+                    FormatDrive(DriveFileSystem, DriveLabel, DriveName);
+                }
+            } else if (FormatOptionBox.SelectedIndex == 1) {
+                DriveCluster = "4096";
+                FormatDrive("NTFS", DriveLabel, DriveName);
             } else {
-                DriveFileSystem = FileSystemBox.Text;
-                DriveLabel = USBVolumeLabelBox.Text;
-                DriveCluster = ClusterSizeBox.Text;
-                if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
-                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
-                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" "));
-                } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
-                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
-                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "K";
-                } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
-                DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
-                    DriveCluster = DriveCluster.Substring(0, DriveCluster.IndexOf(" ")) + "M";
-                }
-                if (DriveFileSystem == "FAT32 (Default)") {
-                    DriveFileSystem = DriveFileSystem.Substring(0, DriveFileSystem.IndexOf(" "));
-                }
-                FormatDrive(DriveFileSystem, DriveLabel, DriveName);
+                MessageBox.Show("Something went wrong and idk", "Error");
             }
         }
+        private void ISOBrowseButton_Click(object sender, EventArgs e) {
+            OpenFileDialog ofd = new OpenFileDialog {
+                InitialDirectory = @"C:\",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                RestoreDirectory = true,
+                Title = "Select ISO or Disc Image",
+                Filter = "ISO Image|*.iso;*.ISO"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                ISOLocation = ofd.FileName;
+            }
+        }
+
+        #endregion
 
         #endregion
 
