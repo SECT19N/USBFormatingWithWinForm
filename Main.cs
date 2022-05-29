@@ -163,7 +163,7 @@ namespace USBFormatingWithWinForm {
                     DriveCluster = ClusterSizeBox.Text;
                     if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
                         DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
-                        DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "");
+                        DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", ""); //Regular Expression to remove all non-numeric characters
                     } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
                     DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
                         DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "") + "K";
