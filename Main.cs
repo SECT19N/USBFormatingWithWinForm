@@ -25,21 +25,6 @@ namespace USBFormatingWithWinForm {
                 }
             }
         }
-        public static string GetSize(long size) {
-            string postfix = "Bytes";
-            long result = size;
-            if (size >= 1000000000) { // Larger than 1 GB
-                result = size / 1000000000;
-                postfix = "GB";
-            } else if (size >= 1000000) { // Larger than 1 MB
-                result = size / 1000000;
-                postfix = "MB";
-            } else if (size >= 1000) { // Larger than 1 KB
-                result = size / 1000;
-                postfix = "KB";
-            }
-            return result.ToString("F1") + " " + postfix;
-        }
         public void FormatDrive(string filesystem, string label, string name) {
             try {
                 StartButton.Enabled = false;
@@ -124,7 +109,7 @@ namespace USBFormatingWithWinForm {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
                 foreach (DriveInfo r in Removeable) {
                     if (r.DriveType == DriveType.Removable) {
-                        string DriverSize = GetSize(r.TotalSize);
+                        string DriverSize = GetSize.Size(r.TotalSize);
                         DriveLabel = r.VolumeLabel;
                         DriveName = r.Name.Remove(2);
                         DeviceBox.Items.Add($"{DriveLabel} {DriveName} [{DriverSize}]");
