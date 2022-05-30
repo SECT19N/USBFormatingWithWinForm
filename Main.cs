@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using DiscUtils;
-using DiscUtils.Udf;
 
 namespace USBFormatingWithWinForm {
     public partial class Main : Form {
@@ -56,46 +54,6 @@ namespace USBFormatingWithWinForm {
             }
             Main_Load(this, null);
         }
-
-        #region ISO Extraction
-        
-        public static void ExtractISO(string ISOName, string ExtractionPath) {
-            using (FileStream ISOStream = File.Open(ISOName, FileMode.Open)) {
-                UdfReader Reader = new UdfReader(ISOStream);
-                ExtractDirectory(Reader.Root, ExtractionPath, "");
-                Reader.Dispose();
-            }
-        }
-        static void ExtractDirectory(DiscDirectoryInfo Dinfo, string RootPath, string PathinISO) {
-            if (!string.IsNullOrWhiteSpace(PathinISO)) {
-                RootPath += "\\" + Dinfo.Name;
-            }
-            RootPath += "\\" + Dinfo.Name;
-            AppendDirectory(RootPath);
-            foreach (DiscDirectoryInfo dinfo in Dinfo.GetDirectories()) {
-                ExtractDirectory(dinfo, RootPath, PathinISO);
-            }
-            foreach (DiscFileInfo finfo in Dinfo.GetFiles()) {
-                using (Stream FileStr = finfo.OpenRead()) {
-                    using (FileStream Fs = File.Create(RootPath + "\\" + finfo.Name)) {
-                        FileStr.CopyTo(Fs, 4 * 1024); //Buffer Size
-                    }
-                }
-            }
-        }
-        private static void AppendDirectory(string rootpath) {
-            try {
-                if (!Directory.Exists(rootpath)) {
-                    Directory.CreateDirectory(rootpath);
-                }
-            } catch (DirectoryNotFoundException) {
-                AppendDirectory(Path.GetDirectoryName(rootpath));
-            } catch (PathTooLongException) {
-                AppendDirectory(Path.GetDirectoryName(rootpath));
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -204,9 +162,13 @@ namespace USBFormatingWithWinForm {
                     FormatDrive(DriveFileSystem, DriveLabel, DriveName);
                 }
             } else if (FormatOptionBox.SelectedIndex == 1) {
+                if (!File.Exists(ISOLocation)) {
+                    MessageBox.Show("File not found!", "Error");
+                    return;
+                }
                 DriveCluster = "4096";
                 FormatDrive("NTFS", DriveLabel, DriveName);
-                ExtractISO(ISOLocation, DriveName);
+                ISO.ExtractISO(ISOLocation, DriveName);
             } else {
                 MessageBox.Show("Something went wrong and idk", "Error");
             }
