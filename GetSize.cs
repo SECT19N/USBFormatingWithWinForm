@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace USBFormatingWithWinForm {
     internal class GetSize {
         public static string Size(Int64 size) {
-            string postfix = "Bytes";
-            long result = size;
+            long result;
             if (size >= 1000000000) { // Larger than 1 GB
                 result = size / 1000000000;
-                postfix = "GB";
+                return $"{result.ToString("F1")} GB";
             } else if (size >= 1000000) { // Larger than 1 MB
                 result = size / 1000000;
-                postfix = "MB";
-            } else if (size >= 1000) { // Larger than 1 KB
-                result = size / 1000;
-                postfix = "KB";
+                return $"{result.ToString("F1")} MB";
             }
-            return result.ToString("F1") + " " + postfix;
+            else if (size >= 1000) { // Larger than 1 KB
+                result = size / 1000;
+                return $"{result.ToString("F1")} KB";
+            }
+            return ""; //I highly doubt there is a flash drive smaller than 1KB
         }
     }
 }
