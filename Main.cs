@@ -146,14 +146,11 @@ namespace USBFormatingWithWinForm {
                     DriveFileSystem = FileSystemBox.Text;
                     DriveLabel = USBVolumeLabelBox.Text;
                     DriveCluster = ClusterSizeBox.Text;
-                    if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes" ||
-                        DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Bytes (Default)") {
+                    if (Regex.IsMatch(DriveCluster, "Bytes")) {
                         DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", ""); //Regular Expression to remove all non-numeric characters
-                    } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes" ||
-                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Kilobytes (Default)") {
+                    } else if (Regex.IsMatch(DriveCluster, "Kilobytes")) {
                         DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "") + "K";
-                    } else if (DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabytes" ||
-                    DriveCluster.Remove(0, DriveCluster.IndexOf(" ")) == " Megabtes (Default)") {
+                    } else if (Regex.IsMatch(DriveCluster, "Megabytes")) {
                         DriveCluster = Regex.Replace(DriveCluster, "[^0-9]", "") + "M";
                     }
                     if (DriveFileSystem == "FAT32 (Default)") {
