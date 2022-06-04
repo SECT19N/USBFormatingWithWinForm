@@ -67,7 +67,7 @@ namespace USBFormatingWithWinForm {
                 DriveInfo[] Removeable = DriveInfo.GetDrives();
                 foreach (DriveInfo r in Removeable) {
                     if (r.DriveType == DriveType.Removable) {
-                        string DriverSize = GetSize.Size(r.TotalSize);
+                        string DriverSize = USBFormatingWithWinForm.Size.GetSize(r.TotalSize);
                         DriveLabel = r.VolumeLabel;
                         DriveName = r.Name.Remove(2);
                         DeviceBox.Items.Add($"{DriveLabel} {DriveName} [{DriverSize}]");

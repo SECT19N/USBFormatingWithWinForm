@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace USBFormatingWithWinForm {
-    internal class GetSize {
-        public static string Size(Int64 size) {
+    internal class Size {
+        public static string GetSize(Int64 size) {
             long result;
             if (size >= 1000000000) { // Larger than 1 GB
                 result = size / 1000000000;
