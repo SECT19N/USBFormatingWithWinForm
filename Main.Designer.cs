@@ -201,7 +201,7 @@ namespace USBFormatingWithWinForm {
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(418, 600);
+            this.StartButton.Location = new System.Drawing.Point(418, 438);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(94, 29);
             this.StartButton.TabIndex = 3;
@@ -213,7 +213,7 @@ namespace USBFormatingWithWinForm {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(552, 641);
+            this.ClientSize = new System.Drawing.Size(552, 476);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
